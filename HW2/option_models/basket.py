@@ -30,22 +30,18 @@ def basket_price_mc_cv(
     ''' 
     compute price2: mc price based on normal model
     make sure you use the same seed
-
+    '''
     # Restore the state in order to generate the same state
-    np.random.set_state(rand_st)  
+    np.random.set_state(rand_st)
     price2 = basket_price_mc(
         strike, spot, spot*vol, weights, texp, cor_m,
         intr, divr, cp, False, n_samples)
-    '''
-    price2 = 0
 
     ''' 
-    compute price3: analytic price based on normal model
-    
+    price3: analytic price based on normal model
+    '''
     price3 = basket_price_norm_analytic(
         strike, spot, vol, weights, texp, cor_m, intr, divr, cp)
-    '''
-    price3 = 0
     
     # return two prices: without and with CV
     return np.array([price1, price1 - (price2 - price3)])
@@ -70,8 +66,11 @@ def basket_price_mc(
     if( bsm ) :
         '''
         PUT the simulation of the geometric brownian motion below
-        '''
         prices = np.zeros_like(znorm_m)
+        '''
+        drift = (intr - divr - 0.5 * vol ** 2) * texp
+        diffusion = vol @ znorm_m * np.sqrt(texp) # sigma * Bt
+        prices = forward[:, None] * np.exp(drift[:, None] + diffusion)
     else:
         # bsm = False: normal model
         prices = forward[:,None] + np.sqrt(texp) * chol_m @ znorm_m
@@ -95,11 +94,25 @@ def basket_price_norm_analytic(
     3. plug in the forward and volatility to the normal price formula
     
     norm = pf.Norm(sigma, intr=intr, divr=divr)
-    norm.price(strike, spot, texp, cp=cp)
+    option_price = norm.price(strike, spot, texp, cp=cp)
     
     PUT YOUR CODE BELOW
     '''
-    
-    
-    
-    return 0.0
+    # Compute the forward of the basket
+    # 1. Compute the forward of the basket
+    fwd = np.dot(weights, spot * np.exp((intr - divr) * texp))
+
+    # Compute the normal volatility of the basket
+    # Adjust the volatilities for the correlation
+    vol_mat = np.diag(vol)  # Convert the vol array into a diagonal matrix
+    cov_m = vol * cor_m * vol[:,None]  # Compute the covariance matrix
+    weighted_cov = weights @ cov_m @ weights.T  # Compute the weighted covariance
+    basket_vol = np.sqrt(weighted_cov * texp)  # Compute the basket volatility
+
+    # Plug in the forward and volatility to the normal price formula
+    d = (fwd - strike) / basket_vol
+    option_price = cp * (fwd - strike) * ss.norm.cdf(cp * d) + basket_vol * ss.norm.pdf(d) * np.sqrt(texp)
+
+    return option_price
+
+
