@@ -69,7 +69,7 @@ def basket_price_mc(
         prices = np.zeros_like(znorm_m)
         '''
         drift = (intr - divr - 0.5 * vol ** 2) * texp
-        diffusion = vol @ znorm_m * np.sqrt(texp) # sigma * Bt
+        diffusion = chol_m @ znorm_m * np.sqrt(texp) # sigma * Bt
         prices = forward[:, None] * np.exp(drift[:, None] + diffusion)
     else:
         # bsm = False: normal model
@@ -99,20 +99,18 @@ def basket_price_norm_analytic(
     PUT YOUR CODE BELOW
     '''
     # Compute the forward of the basket
-    # 1. Compute the forward of the basket
-    fwd = np.dot(weights, spot * np.exp((intr - divr) * texp))
+    div_fac = np.exp(-texp * divr)
+    disc_fac = np.exp(-texp * intr)
+    fwd = spot / disc_fac * div_fac
 
     # Compute the normal volatility of the basket
-    # Adjust the volatilities for the correlation
-    vol_mat = np.diag(vol)  # Convert the vol array into a diagonal matrix
     cov_m = vol * cor_m * vol[:,None]  # Compute the covariance matrix
-    weighted_cov = weights @ cov_m @ weights.T  # Compute the weighted covariance
-    basket_vol = np.sqrt(weighted_cov * texp)  # Compute the basket volatility
+    weighted_cov = np.sqrt(weights @ cov_m @ weights.T)  # Compute the weighted covariance
 
     # Plug in the forward and volatility to the normal price formula
-    d = (fwd - strike) / basket_vol
-    option_price = cp * (fwd - strike) * ss.norm.cdf(cp * d) + basket_vol * ss.norm.pdf(d) * np.sqrt(texp)
+    norm = pf.Norm(weighted_cov, intr=intr, divr=divr)
+    option_price = norm.price(strike, np.inner(weights, fwd), texp, cp=cp)
 
-    return option_price
+    return np.mean(option_price)
 
 
