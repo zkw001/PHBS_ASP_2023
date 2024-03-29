@@ -115,12 +115,18 @@ class ModelBsmMC(ModelABC):
         '''
         vol_path = self.sigma_path(texp)  # the path of sigma_t
         sigma_t = vol_path[-1, :]  # sigma_t at maturity (t=T)
+        I_t = self.intvar_normalized(vol_path)
 
         Z = np.random.standard_normal(self.n_path)
-        S_T = spot * np.exp((self.intr - 0.5 * sigma_t ** 2) * texp + sigma_t * np.sqrt(texp) * Z)
+
+        s_t = (1 / self.vov) * (sigma_t - 1.0) - 0.5 * self.sigma * self.rho * texp * I_t
+        np.exp(self.rho * self.sigma * s_t, out=s_t)
+        vol = self.sigma * np.sqrt((1 - self.rho ** 2) * I_t)
+        volt = vol * np.sqrt(texp)
+        S_t = s_t * spot * np.exp(volt * (Z - volt / 2))
 
         df = np.exp(-self.intr * texp)
-        p = df * np.mean(np.fmax(cp*(S_T - strike[:, None]), 0.0), axis=1)
+        p = df * np.mean(np.fmax(cp*(S_t - strike[:, None]), 0.0), axis=1)
         return p
 
 class ModelNormMC(ModelBsmMC):
@@ -139,13 +145,21 @@ class ModelNormMC(ModelBsmMC):
         '''
         vol_path = self.sigma_path(texp)  # the path of sigma_t
         sigma_t = vol_path[-1, :]  # sigma_t at maturity (t=T)
-
-        Z = np.random.standard_normal((self.n_path,))  # Generate random normals for each path
-        # Adjusting the simulation for Normal (Bachelier) model
-        S_T = spot + sigma_t * np.sqrt(texp) * Z
+        I_t = self.intvar_normalized(vol_path)
 
         df = np.exp(-self.intr * texp)
-        p = df * np.mean(np.fmax(cp*(S_T - strike[:, None]), 0.0), axis=1)
+
+        Z = np.random.standard_normal(self.n_path)  # 标准正态随机数
+
+        s_t = (self.rho / self.vov) * (sigma_t - 1) * self.sigma
+
+        # Generate random normals for price paths
+        Z = np.random.standard_normal(sigma_t.shape)
+        vol = self.sigma * np.sqrt((1 - self.rho ** 2) * I_t)
+        volt = vol * np.sqrt(texp)
+        S_t = s_t + spot / df + volt * Z
+
+        p = df * np.mean(np.fmax(cp*(S_t - strike[:, None]), 0.0), axis=1)
         return p
 
 class ModelBsmCondMC(ModelBsmMC):
@@ -160,39 +174,45 @@ class ModelBsmCondMC(ModelBsmMC):
         (2) Calculate the equivalent spot and volatility of the BS model
         (3) Calculate option prices (vector) by averaging the BS prices
         '''
+
+
         vol_path = self.sigma_path(texp)  # the path of sigma_t
         sigma_t = vol_path[-1, :]  # sigma_t at maturity (t=T)
         I_t = self.intvar_normalized(vol_path)
 
-        vol = np.sqrt(I_t / texp)  # Equivalent volatility
-        spot_equiv = spot * np.exp(-0.5 * I_t + sigma_t * np.sqrt(I_t))  # Adjust spot by variance
+        vol = self.sigma * np.sqrt((1 - self.rho ** 2) * I_t)  # Equivalent volatility
+        volt = vol * np.sqrt(texp)
+        df = np.exp(-self.intr * texp)  # Discount factor
+        # Adjusting for conditional forward calculation as per the given formula
+        s_t = (1 / self.vov) * (sigma_t - 1.0) - 0.5 * self.sigma * self.rho * texp * I_t
+        np.exp(self.rho * self.sigma * s_t, out=s_t)
+        c_f_spot = s_t * spot / df
 
-        m = self.base_model(vol)
+        Z = np.random.standard_normal(self.n_path)
+        spot_equiv = c_f_spot * np.exp(volt * (Z - volt / 2))
+
+        m = self.base_model(vol)  # Assuming base_model is set up to use the adjusted volatility
         p = np.mean(m.price(strike[:, None], spot_equiv, texp, cp), axis=1)
-        
-        return p
 
+        return p
 
 class ModelNormCondMC(ModelNormMC):
     """
-    Conditional MC for Bsm SABR (beta = 1)
+    Conditional MC for Normal SABR (beta = 0)
     """
 
     def price(self, strike, spot, texp=1.0, cp=1):
-        '''
-        Your MC routine goes here.
-        (1) Generate the paths of sigma_t and normalized integrated variance
-        (2) Calculate the equivalent spot and volatility of the Bachelier model
-        (3) Calculate option prices (vector) by averaging the BS prices
-        '''
+
         vol_path = self.sigma_path(texp)  # the path of sigma_t
         sigma_t = vol_path[-1, :]  # sigma_t at maturity (t=T)
         I_t = self.intvar_normalized(vol_path)
+        vol = self.sigma * np.sqrt((1 - self.rho ** 2) * I_t)  # Equivalent volatility
 
-        vol = np.sqrt(I_t / texp)  # Equivalent volatility
-        spot_equiv = spot + sigma_t * np.sqrt(I_t)  # Placeholder for spot adjustment
+        Z = np.random.standard_normal(self.n_path)
+        S_T = spot + sigma_t * np.sqrt(I_t) + sigma_t * np.sqrt(texp) * Z
 
         m = self.base_model(vol)
-        p = np.mean(m.price(strike[:, None], spot_equiv, texp, cp), axis=1)
-        
+        p = np.mean(m.price(strike[:, None], S_T, texp, cp), axis=1)
+
         return p
+
