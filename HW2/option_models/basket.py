@@ -44,7 +44,7 @@ def basket_price_mc_cv(
         strike, spot, vol, weights, texp, cor_m, intr, divr, cp)
     
     # return two prices: without and with CV
-    return np.array([price1, price1 - (price2 - price3)])
+    return np.array([price1, price2, price3])
 
 
 def basket_price_mc(
@@ -73,7 +73,7 @@ def basket_price_mc(
         prices = forward[:, None] * np.exp(drift[:, None] + diffusion)
     else:
         # bsm = False: normal model
-        prices = forward[:,None] + np.sqrt(texp) * chol_m @ znorm_m
+        prices = forward[:, None] + np.sqrt(texp) * chol_m @ znorm_m
     
     price_weighted = weights @ prices
     
@@ -111,6 +111,6 @@ def basket_price_norm_analytic(
     norm = pf.Norm(weighted_cov, intr=intr, divr=divr)
     option_price = norm.price(strike, np.inner(weights, fwd), texp, cp=cp)
 
-    return np.mean(option_price)
+    return np.mean(option_price)[0]
 
 
