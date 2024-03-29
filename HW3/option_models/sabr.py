@@ -153,8 +153,6 @@ class ModelNormMC(ModelBsmMC):
 
         s_t = (self.rho / self.vov) * (sigma_t - 1) * self.sigma
 
-        # Generate random normals for price paths
-        Z = np.random.standard_normal(sigma_t.shape)
         vol = self.sigma * np.sqrt((1 - self.rho ** 2) * I_t)
         volt = vol * np.sqrt(texp)
         S_t = s_t + spot / df + volt * Z
