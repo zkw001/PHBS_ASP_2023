@@ -97,18 +97,25 @@ $$v_t = \sigma_t^2$$
 the SDE for $\sigma_t$ is
 
 $$d\sigma_t  = d\sqrt{v_t} = \frac{1}{2\sqrt{v_t}}dv_t - \frac{1}{8v_t\sqrt{v_t}}(dv_t)^2 $$
+
 $$ = -\frac{\kappa}{2} \left(\frac{\theta}{\sigma_t} - \sigma_t\right) dt + \frac{\nu}{2} \sigma_t dZ_t - \frac{\nu^2}{8} \sigma_t dt $$
+
 $$= \frac{1}{2} \left( \frac{\kappa\theta}{\sigma_t} - \left(\kappa + \frac{\nu^2}{4}\right) \sigma_t \right) dt + \frac{\nu}{2} \sigma_t dZ_t.$$
 
 where $dZ_t = \rho dB_t + \sqrt{1-\rho^2}dW_t$
 such that, 
+
 $$ a(\sigma_t) = \frac{1}{2} \left( \frac{\kappa\theta}{\sigma_t} - \left(\kappa + \frac{\nu^2}{4}\right) \sigma_t \right)$$
+
 $$ b(\sigma_t) = \frac{\nu}{2} \sigma_t$$
+
 $$ b'(\sigma_t) = \frac{\nu}{2} $$ 
+
 $$I_1(\theta; \sigma) = -\frac{\rho b \theta}{2},$$
 
-$$I_2(\theta; \sigma) = \left( -\frac{5 \rho^2 b^2}{12 \sigma} + \frac{1}{6} \frac{b^2}{\sigma} + \frac{1}{6} \rho^2 bb' \right) \theta^2 
-+ \frac{a}{2} + \frac{\rho b \sigma}{4} + \frac{1}{24} \frac{\rho^2 b^2}{\sigma} + \frac{1}{12} b^2 - \frac{1}{6} \rho^2 bb',$$
+$$I_2(\theta; \sigma) = \left( -\frac{5 \rho^2 b^2}{12 \sigma} + \frac{1}{6} \frac{b^2}{\sigma} + \frac{1}{6} \rho^2 bb' \right) \theta^2$$ 
+
+$$+ \frac{a}{2} + \frac{\rho b \sigma}{4} + \frac{1}{24} \frac{\rho^2 b^2}{\sigma} + \frac{1}{12} b^2 - \frac{1}{6} \rho^2 bb',$$
 
 
 
