@@ -64,7 +64,11 @@ firstly, applying the expected value we obtained to the BSM model
 | 180 | 1.3665 | 2.8251 | 5.0541 | 8.0589 | 11.7365 |
 | 252 | 2.0217 | 3.6659 | 5.9785 | 8.9487 | 12.5002 |
 | 504 | 3.9898 | 5.9745 | 8.4470 | 11.3853 | 14.7457 |
+
+
 diff 
+
+
 |  | 90 | 95 | 100 | 105 | 110 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 30 | -0.0041 | 0.0001 | 0.0109 | 0.0008 | -0.0050 |
@@ -84,6 +88,7 @@ step by step
 
 
 ## Approximate lV (Medvedev and Scaillet, 2007)
+
 $$dv_t = \kappa(\theta - v_t)dt + \nu v_t dZ_t$$  
 $$v_t = \sigma_t^2$$
 the SDE for $\sigma_t$ is
