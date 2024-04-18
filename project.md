@@ -95,11 +95,11 @@ step by step
 $$dv_t = \kappa(\theta - v_t)dt + \nu v_t dZ_t$$  
 $$v_t = \sigma_t^2$$
 the SDE for $\sigma_t$ is
-\begin{align*}
-d\sigma_t & = d\sqrt{v_t} = \frac{1}{2\sqrt{v_t}}dv_t - \frac{1}{8v_t\sqrt{v_t}}(dv_t)^2 \\
-& = -\frac{\kappa}{2} \left(\frac{\theta}{\sigma_t} - \sigma_t\right) dt + \frac{\nu}{2} \sigma_t dZ_t - \frac{\nu^2}{8} \sigma_t dt \\
-&= \frac{1}{2} \left( \frac{\kappa\theta}{\sigma_t} - \left(\kappa + \frac{\nu^2}{4}\right) \sigma_t \right) dt + \frac{\nu}{2} \sigma_t dZ_t.
-\end{align*}
+
+$$d\sigma_t  = d\sqrt{v_t} = \frac{1}{2\sqrt{v_t}}dv_t - \frac{1}{8v_t\sqrt{v_t}}(dv_t)^2 $$
+$$ = -\frac{\kappa}{2} \left(\frac{\theta}{\sigma_t} - \sigma_t\right) dt + \frac{\nu}{2} \sigma_t dZ_t - \frac{\nu^2}{8} \sigma_t dt $$
+$$= \frac{1}{2} \left( \frac{\kappa\theta}{\sigma_t} - \left(\kappa + \frac{\nu^2}{4}\right) \sigma_t \right) dt + \frac{\nu}{2} \sigma_t dZ_t.$$
+
 where $dZ_t = \rho dB_t + \sqrt{1-\rho^2}dW_t$
 such that, 
 $$ a(\sigma_t) = \frac{1}{2} \left( \frac{\kappa\theta}{\sigma_t} - \left(\kappa + \frac{\nu^2}{4}\right) \sigma_t \right)$$
