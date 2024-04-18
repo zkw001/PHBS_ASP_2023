@@ -51,18 +51,17 @@ $$X_t = e^{-\left(\lambda + \frac{\sigma^2}{2}\right)t+\sigma B_t} \left( X_0 + 
 
 $$E(X_t|X_0) = X_0 e^{-\lambda t} + \mu (1 - e^{- \lambda t})$$
 
-![Var(X_t|X_0)公式]([formula.png](https://github.com/zkw001/PHBS_ASP_2023/blob/main/CodeCogsEqn.gif))
-https://github.com/zkw001/PHBS_ASP_2023/blob/main/CodeCogsEqn.gif
-$$
-\operatorname{Var}(X_t|X_0) = 
+![Var(X_t|X_0)公式](https://github.com/zkw001/PHBS_ASP_2023/blob/main/CodeCogsEqn.gif)
+
+
+$$\operatorname{Var}(X_t|X_0) = 
 \begin{cases} 
 e^{-\lambda t} (2\lambda\mu[t X_0 -  X_0/\lambda - t\mu] + X_0^2) 
 - e^{-2\lambda t} (X_0 - \mu)^2 + \mu^2, & \text{if } \sigma^2 = \lambda  , \\
 e^{-\lambda t} (4\mu[\mu - X_0]) - e^{-2 \lambda t} (X_0 - \mu)^2 
 + 2\mu^2\lambda t - 3\mu^2 + 2\mu X_0 + X_0^2, & \text{if } \sigma^2  = 2\lambda  , \\
 \frac{\mu^2\sigma^2}{2\lambda-\sigma^2} + \frac{2\sigma^2 (X_0-\mu)\mu}{\lambda - \sigma^2} e^{-\lambda t}- e^{-2\lambda t} (X_0 - \mu)^2 + e^{(\sigma^2-2\lambda)t} \left[ X_0^2 - \frac{2X_0\mu\lambda}{\lambda-\sigma^2} + \frac{2\mu^2\lambda}{(2\lambda-\sigma^2)(\lambda-\sigma^2)} \right], & \text{otherwise}.
-\end{cases}
-$$
+\end{cases}$$
 
 firstly, applying the expected value we obtained to the BSM model
 |  | 90 | 95 | 100 | 105 | 110 |
