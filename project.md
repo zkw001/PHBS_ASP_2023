@@ -1,1 +1,2 @@
-# This it the project FOR ASP course
+# Garch Diffusion Model
+
