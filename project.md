@@ -51,6 +51,8 @@ $$X_t = e^{-\left(\lambda + \frac{\sigma^2}{2}\right)t+\sigma B_t} \left( X_0 + 
 
 $$E(X_t|X_0) = X_0 e^{-\lambda t} + \mu (1 - e^{- \lambda t})$$
 
+![Var(X_t|X_0)公式]([formula.png](https://github.com/zkw001/PHBS_ASP_2023/blob/main/CodeCogsEqn.gif))
+https://github.com/zkw001/PHBS_ASP_2023/blob/main/CodeCogsEqn.gif
 $$
 \operatorname{Var}(X_t|X_0) = 
 \begin{cases} 
