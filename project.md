@@ -10,7 +10,8 @@ $$v_{t+\Delta t} = \theta + (v_t - \theta)e^{-\kappa \Delta t} + \nu\sqrt{v_t} \
 
 There are two Garch Diffusion Model in [Garch.py](https://github.com/PyFE/PyFENG/blob/main/pyfeng/garch.py) from Pyfeng, one is **GarchUncorrBaroneAdesi2004** and the other is **GarchMcTimeDisc**
 
-data from paper
+data from paper Barone-Adesi, G., Rasmussen, H., & Ravanelli, C. (2005). An option pricing formula for the GARCH diffusion model. Computational Statistics & Data Analysis, 49, 287–310. https://doi.org/10.1016/j.csda.2004.05.014
+
 first scheme
 |  | 90 | 95 | 100 | 105 | 110 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
