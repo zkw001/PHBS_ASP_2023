@@ -126,9 +126,9 @@ $$I_1(\theta; \sigma) = -\frac{\rho b \theta}{2},$$
 
 $$I_2(\theta; \sigma) = \left( -\frac{5 \rho^2 b^2}{12 \sigma} + \frac{1}{6} \frac{b^2}{\sigma} + \frac{1}{6} \rho^2 bb' \right) \theta^2$$ 
 
-we will compare the exat sigma and approximate sigma around $X = \tau = 0$
-
 $$+ \frac{a}{2} + \frac{\rho b \sigma}{4} + \frac{1}{24} \frac{\rho^2 b^2}{\sigma} + \frac{1}{12} b^2 - \frac{1}{6} \rho^2 bb',$$
+
+we will compare the exat sigma and approximate sigma around $X = \tau = 0$
 
 
 
