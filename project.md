@@ -1,6 +1,7 @@
 
 
 # Garch Diffusion Model
+$$dX_t = \lambda(\mu - X_t)\,dt + \sigma X_t\,dB_t$$
 
 ## The new Milstein scheme from midterm exam
 
@@ -48,6 +49,10 @@ diff
 | 504 | 0.0009 | 0.0015 | 0.0017 | 0.0016 | 0.0011 |
 
 ## Time-discretization using exact mean and variance (Zhao 2009; Tubikanec et al. 2021)
+
+Capriotti, L., Jiang, Y., & Shaimerdenova, G. (2019). APPROXIMATION METHODS FOR INHOMOGENEOUS GEOMETRIC BROWNIAN MOTION. International Journal of Theoretical and Applied Finance, 22(02), 1850055. https://doi.org/10.1142/S0219024918500553
+
+Capriotti, L., Jiang, Y., & Shaimerdenova, G. (2019). APPROXIMATION METHODS FOR INHOMOGENEOUS GEOMETRIC BROWNIAN MOTION. International Journal of Theoretical and Applied Finance, 22(02), 1850055. https://doi.org/10.1142/S0219024918500553
 
 $$dX_t = \lambda(\mu - X_t)\,dt + \sigma X_t\,dB_t$$
 $$X_t = e^{-\left(\lambda + \frac{\sigma^2}{2}\right)t+\sigma B_t} \left( X_0 + \lambda \mu \int_0^t e^{\left(\lambda + \frac{\sigma^2}{2}\right)s-\sigma B_s} \, ds \right),$$
