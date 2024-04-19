@@ -1,3 +1,5 @@
+
+
 # Garch Diffusion Model
 
 ## The new Milstein scheme from midterm exam
